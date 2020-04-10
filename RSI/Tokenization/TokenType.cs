@@ -13,6 +13,6 @@ namespace top.riverelder.RSI.Tokenization {
             Name = name;
         }
 
-        public override string ToString() => Name;
+        public override string ToString() => this.Name;
     }
 }
