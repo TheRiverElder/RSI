@@ -15,7 +15,7 @@ namespace top.riverelder.RSI.Test {
         }
 
         public static void TestTokenStream() {
-            string s = "   123 123. 456 778 \"Hello World!\" \"I said \\\"Hello World\\\"\" “我说“问世界好在\\””  999";
+            string s = "   123 123.456 778 \"Hello World!\" \"I said \\\"Hello World\\\"\" “我说“问世界好在\\””  999";
             StringReader reader = new StringReader(s);
             TokenStream ts = new TokenStream(reader);
 

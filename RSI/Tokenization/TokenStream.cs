@@ -70,7 +70,10 @@ namespace top.riverelder.RSI.Tokenization {
         /// <param name="token">解析结果</param>
         /// <returns>是否解析成功</returns>
         public bool TryParse(StringReader reader, out Token token) {
-            reader.SkipSpace();
+            if (!reader.SkipSpace()) {
+                token = null;
+                return false;
+            }
             int start = reader.Cursor;
             foreach (ITokenizer tokenizer in Tokenizers) {
                 if (tokenizer.Tokenize(reader, out token)) {
