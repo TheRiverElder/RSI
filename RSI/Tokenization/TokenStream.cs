@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using top.riverelder.RSI.Util;
 
 namespace top.riverelder.RSI.Tokenization {
     public class TokenStream {
+
 
         private StringReader Reader;
         public int Index = 0;
@@ -23,6 +20,18 @@ namespace top.riverelder.RSI.Tokenization {
         }
 
         /// <summary>
+        /// 使用心得字符流重置Token流
+        /// </summary>
+        /// <param name="reader">新的字符流</param>
+        /// <returns>自身</returns>
+        public TokenStream Reset(StringReader reader) {
+            Reader = reader;
+            Index = 0;
+            ParsedTokens.Clear();
+            return this;
+        }
+
+        /// <summary>
         /// 检查是否还有更多Token
         /// </summary>
         public bool HasMore => Fill(Index);
@@ -32,8 +41,7 @@ namespace top.riverelder.RSI.Tokenization {
         /// </summary>
         /// <returns>下一个Token</returns>
         public Token Read() {
-            Fill();
-            return ParsedTokens[Index++];
+            return Fill () ? ParsedTokens[Index++] : Token.EOF.SetRange(Reader.Data, -1, -1);
         }
 
         /// <summary>
@@ -41,8 +49,7 @@ namespace top.riverelder.RSI.Tokenization {
         /// </summary>
         /// <returns>下一个Token</returns>
         public Token Peek() {
-            Fill();
-            return ParsedTokens[Index];
+            return Fill() ? ParsedTokens[Index] : Token.EOF.SetRange(Reader.Data, -1, -1);
         }
 
         /// <summary>
@@ -70,13 +77,14 @@ namespace top.riverelder.RSI.Tokenization {
         /// <param name="token">解析结果</param>
         /// <returns>是否解析成功</returns>
         public bool TryParse(StringReader reader, out Token token) {
-            if (!reader.SkipSpace()) {
+            if (!reader.SkipSpaceExpectLineSeparator()) {
                 token = null;
                 return false;
             }
             int start = reader.Cursor;
             foreach (ITokenizer tokenizer in Tokenizers) {
                 if (tokenizer.Tokenize(reader, out token)) {
+                    token.SetRange(reader.Data, start, reader.Cursor);
                     return true;
                 }
                 reader.Cursor = start;

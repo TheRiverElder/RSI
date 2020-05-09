@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
-using top.riverelder.RSI.Tokenization.Tokens;
+using top.riverelder.RSI.Computing;
 using top.riverelder.RSI.Util;
 
 namespace top.riverelder.RSI.Tokenization.Tokenizers {
@@ -14,9 +11,8 @@ namespace top.riverelder.RSI.Tokenization.Tokenizers {
             ['"'] = '"',
             ['“'] = '”',
             ['\''] = '\'',
+            ['‘'] = '’',
         };
-
-        public string Hint => "STRING";
 
         public bool Tokenize(StringReader reader, out Token token) {
 
@@ -36,7 +32,7 @@ namespace top.riverelder.RSI.Tokenization.Tokenizers {
                 if (EscapeChar == next) {
                     markedEsacpe = true;
                 } else if (quoteClose == next) {
-                    token = new StringToken(builder.ToString());
+                    token = new Token("STR", new StringValue(builder.ToString()));
                     return true;
                 } else {
                     builder.Append(next);

@@ -97,7 +97,18 @@ namespace top.riverelder.RSI.Util {
         /// <returns>跳过后是否还有后续字符</returns>
         public bool SkipSpace() {
             while(HasMore && char.IsWhiteSpace(Data, Cursor)) {
-                Skip();
+                Cursor++;
+            }
+            return HasMore;
+        }
+
+        /// <summary>
+        /// 跳过除了换行外的空白字符
+        /// </summary>
+        /// <returns>跳过后是否还有后续字符</returns>
+        public bool SkipSpaceExpectLineSeparator() {
+            while (HasMore && char.IsWhiteSpace(Data, Cursor) && Data[Cursor] != '\n') {
+                Cursor++;
             }
             return HasMore;
         }

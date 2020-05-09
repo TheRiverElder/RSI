@@ -5,14 +5,52 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace top.riverelder.RSI.Tokenization {
-    public class TokenType {
+    public enum TokenType {
 
-        public string Name { get; }
+        // 字面量
+        Integer,
+        Decimal,
+        String,
+        Identity,
 
-        public TokenType(string name) {
-            Name = name;
-        }
+        // 基础符号
+        Add,
+        Substract,
+        Muliply,
+        Divide,
+        Modulo,
 
-        public override string ToString() => this.Name;
+        // 比较运算
+        GreatThen,
+        LessThen,
+        Equal,
+        NotEqual,
+        GreatOrEqual,
+        LessOrEqual,
+
+        // 逻辑运算
+        And,
+        Or,
+        Not,
+
+        // 括号
+        OpenParen,
+        CloseParen,
+        OpenBracket,
+        ClosedBracket,
+        OpenBrace,
+        CloseBrace,
+
+        // 分隔符
+        EndOfLine,
+        Comma,
+        Semicolon,
+
+        // 其它符号
+        Arrow,
+        At,
+        Colon,
+        Question,
+        Comment,
     }
 }

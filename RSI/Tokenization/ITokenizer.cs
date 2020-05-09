@@ -16,10 +16,5 @@ namespace top.riverelder.RSI.Tokenization {
         /// <param name="token">解析结果</param>
         /// <returns>是否解析成功</returns>
         bool Tokenize(StringReader reader, out Token token);
-
-        /// <summary>
-        /// 获取该Tokenizer的提示
-        /// </summary>
-        string Hint { get; }
     }
 }
